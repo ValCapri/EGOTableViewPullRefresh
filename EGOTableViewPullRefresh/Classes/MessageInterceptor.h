@@ -28,10 +28,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MessageInterceptor : NSObject {
-    id receiver;
-    id middleMan;
-}
+@interface MessageInterceptor : NSObject
 @property (nonatomic, assign) id receiver;
 @property (nonatomic, assign) id middleMan;
 @end

@@ -29,24 +29,24 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "EGORefreshTableHeaderView.h"
-#import "DVActivityIndicator.h"
 
 @protocol LoadMoreTableFooterDelegate;
 @interface LoadMoreTableFooterView : UIView {
 	
-	id _delegate;
-	EGOPullState _state;
-    
-	UILabel *_statusLabel;
-	CALayer *_arrowImage;
-	DVActivityIndicator *_activityView;
-    
-    // Set this to Yes when egoRefreshTableHeaderDidTriggerRefresh delegate is called and No with egoRefreshScrollViewDataSourceDidFinishedLoading
-    BOOL isLoading;
+	
 	
 }
 
-@property(nonatomic,assign) id <LoadMoreTableFooterDelegate> delegate;
+@property(nonatomic,assign) EGOPullState state;
+
+@property (nonatomic,strong) UILabel *statusLabel;
+@property (nonatomic,strong) CALayer *arrowImage;
+@property (nonatomic,strong) UIActivityIndicatorView *activityView;
+
+// Set this to Yes when egoRefreshTableHeaderDidTriggerRefresh delegate is called and No with egoRefreshScrollViewDataSourceDidFinishedLoading
+@property(nonatomic,assign) BOOL isLoading;
+
+@property(nonatomic,assign) id<LoadMoreTableFooterDelegate> delegate;
 
 - (void)egoRefreshScrollViewDidScroll:(UIScrollView *)scrollView;
 - (void)egoRefreshScrollViewDidEndDragging:(UIScrollView *)scrollView;
@@ -57,6 +57,6 @@
 
 @end
 
-@protocol LoadMoreTableFooterDelegate
+@protocol LoadMoreTableFooterDelegate <NSObject>
 - (void)loadMoreTableFooterDidTriggerLoadMore:(LoadMoreTableFooterView*)view;
 @end

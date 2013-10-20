@@ -35,13 +35,10 @@
 
 @implementation LoadMoreTableFooterView
 
-@synthesize delegate=_delegate;
-
-
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 		
-        isLoading = NO;
+        _isLoading = NO;
         
         CGFloat midY = PULL_AREA_HEIGTH/2;
         
@@ -68,9 +65,9 @@
 		_arrowImage=layer;
 		
         /* Config activity indicator */
-        DVActivityIndicator *view = [[DVActivityIndicator alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         view.hidesWhenStopped = YES;
-        view.image = [UIImage imageNamed:@"loading_view"];
+        //view.image = [UIImage imageNamed:@"loading_view"];
 		view.frame = CGRectMake(25.0f,midY - 8, 20.0f, 20.0f);
 		[self addSubview:view];
 		_activityView = view;		
@@ -181,9 +178,9 @@
         scrollView.contentInset = currentInsets;
 		
 	} else if (scrollView.isDragging) {
-		if (_state == EGOOPullPulling && bottomOffset > -PULL_TRIGGER_HEIGHT && bottomOffset < 0.0f && !isLoading) {
+		if (_state == EGOOPullPulling && bottomOffset > -PULL_TRIGGER_HEIGHT && bottomOffset < 0.0f && !_isLoading) {
 			[self setState:EGOOPullNormal];
-		} else if (_state == EGOOPullNormal && bottomOffset < -PULL_TRIGGER_HEIGHT && !isLoading) {
+		} else if (_state == EGOOPullNormal && bottomOffset < -PULL_TRIGGER_HEIGHT && !_isLoading) {
 			[self setState:EGOOPullPulling];
             
 		}
@@ -199,7 +196,7 @@
 }
 
 - (void)startAnimatingWithScrollView:(UIScrollView *) scrollView {
-    isLoading = YES;
+    _isLoading = YES;
     [self setState:EGOOPullLoading];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.2];
@@ -215,7 +212,7 @@
 - (void)egoRefreshScrollViewDidEndDragging:(UIScrollView *)scrollView {
 	
 	
-	if ([self scrollViewOffsetFromBottom:scrollView] <= - PULL_TRIGGER_HEIGHT && !isLoading) {
+	if ([self scrollViewOffsetFromBottom:scrollView] <= - PULL_TRIGGER_HEIGHT && !_isLoading) {
         [self startAnimatingWithScrollView:scrollView];
         if ([_delegate respondsToSelector:@selector(loadMoreTableFooterDidTriggerLoadMore:)]) {
             [_delegate loadMoreTableFooterDidTriggerLoadMore:self];
@@ -226,7 +223,7 @@
 
 - (void)egoRefreshScrollViewDataSourceDidFinishedLoading:(UIScrollView *)scrollView {	
 	
-    isLoading = NO;
+    _isLoading = NO;
     
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:.3];
@@ -238,19 +235,5 @@
 	[self setState:EGOOPullNormal];
     
 }
-
-
-#pragma mark -
-#pragma mark Dealloc
-
-- (void)dealloc {
-	
-	_delegate=nil;
-	[_activityView release];
-	[_statusLabel release];
-	[_arrowImage release];
-    [super dealloc];
-}
-
 
 @end

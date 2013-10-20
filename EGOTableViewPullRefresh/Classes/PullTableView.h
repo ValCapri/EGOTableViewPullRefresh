@@ -60,10 +60,7 @@
     // Status
     BOOL pullTableIsRefreshing;
     BOOL pullTableIsLoadingMore;
-    
-    // Delegate
-    id<PullTableViewDelegate> pullDelegate;
-    
+        
 }
 
 /* The configurable display properties of PullTableView. Set to nil for default values */

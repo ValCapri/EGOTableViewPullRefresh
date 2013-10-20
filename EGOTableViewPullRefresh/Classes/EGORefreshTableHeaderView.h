@@ -26,7 +26,6 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import "DVActivityIndicator.h"
 
 typedef enum{
 	EGOOPullPulling = 0,

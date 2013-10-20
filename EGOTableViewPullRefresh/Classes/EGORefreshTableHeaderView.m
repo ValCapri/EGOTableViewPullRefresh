@@ -32,7 +32,7 @@
 @property (nonatomic, weak) UILabel *lastUpdatedLabel;
 @property (nonatomic, weak) UILabel *statusLabel;
 @property (nonatomic, weak) CALayer *arrowImage;
-@property (nonatomic, weak) DVActivityIndicator *activityView;
+@property (nonatomic, weak) UIActivityIndicatorView *activityView;
 @property (nonatomic) BOOL isLoading;
 @end
 
@@ -79,8 +79,8 @@
 		_arrowImage=layer;
 		
         /* Config activity indicator */
-        DVActivityIndicator *view = [[DVActivityIndicator alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        view.image = [UIImage imageNamed:@"loading_view"];
+        UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        //view.image = [UIImage imageNamed:@"loading_view"];
         view.hidesWhenStopped = YES;
 		view.frame = CGRectMake(25.0f,midY - 8, 20.0f, 20.0f);
 		[self addSubview:view];
@@ -288,27 +288,27 @@
 
     // Give start animation some time to finish.
 
-    @weakify(self);
-    @weakify(scrollView);
+    __weak EGORefreshTableHeaderView* weakSelf = self;
+    __weak UIScrollView* weakScrollView = scrollView;
 
     double delayInSeconds = 0.2;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        @strongify(self);
-        @strongify(scrollView);
+        __strong EGORefreshTableHeaderView* strongSelf = weakSelf;
+        __strong UIScrollView* strongScrollView = weakScrollView;
 
         [UIView animateWithDuration:.3 animations:^{
-            UIEdgeInsets currentInsets = scrollView.contentInset;
+            UIEdgeInsets currentInsets = strongScrollView.contentInset;
             currentInsets.top = 0;
-            scrollView.contentInset = currentInsets;
+            strongScrollView.contentInset = currentInsets;
 
-            CGFloat yOffset = scrollView.contentOffset.y;
-            if (self.searchBarHeight > 0 && yOffset < self.searchBarHeight) {
-                [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, self.searchBarHeight) animated:YES];
+            CGFloat yOffset = strongScrollView.contentOffset.y;
+            if (strongSelf.searchBarHeight > 0 && yOffset < strongSelf.searchBarHeight) {
+                [strongScrollView setContentOffset:CGPointMake(strongScrollView.contentOffset.x, strongSelf.searchBarHeight) animated:YES];
             }
         }];
         
-        [self setState:EGOOPullNormal];
+        [strongSelf setState:EGOOPullNormal];
     });
 }
 
