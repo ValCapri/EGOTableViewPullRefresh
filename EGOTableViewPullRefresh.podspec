@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'EGOTableViewPullRefresh/Classes/*.{h,m}'
   s.resources = 'EGOTableViewPullRefresh/Resources/*.png'
-  s.require_arc = true;
+  s.requires_arc = true;
 
   s.framework = 'QuartzCore'
 end
