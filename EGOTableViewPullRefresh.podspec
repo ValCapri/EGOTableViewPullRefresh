@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/ValCapri/EGOTableViewPullRefresh.git',
                  :commit => 'ee330ab6899a0504866a5d875eb6cef4c2f5fb1b' }
 
-  s.source_files = 'EGOTableViewPullRefresh/Classes/View/*.{h,m}'
+  s.source_files = 'EGOTableViewPullRefresh/Classes/*.{h,m}'
   s.resources = 'EGOTableViewPullRefresh/Resources/*.png'
 
   s.framework = 'QuartzCore'
